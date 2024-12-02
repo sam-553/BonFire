@@ -1,20 +1,74 @@
 const express = require('express');
+const Model=require('../model/postmodel')
 
 const router=express.Router()
 
-router.get('/add',(req,res)=>{
-    res.send('response from post add')
+router.post('/add', (req, res) => {
+
+    new Model(req.body).save()
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch((err) => {
+            console.log(err);
+
+            res.status(500).json(err)
+        });
+module
+
+
+
+
+
 })
-router.get('/getall',(req,res)=>{
-    res.send('response from post getall')
+router.get('/getall', (req, res) => {
+
+    Model.find()
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch((err) => {
+            console.log(err);
+            if(err==11000){
+                res.status(500).json(err)
+            }
+      
+
+        });
+
+
+
 })
-router.get('/getbyid',(req,res)=>{
-    res.send('response from post getbyid')
+router.get('getbyid', (req, res) => {
+
+    Model.findById()
+    .then((result) => {
+       res.status(200).json(result) 
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(err)
+        
+    });
+  
 })
-router.get('/update',(req,res)=>{
-    res.send('response from post update')
+router.get('/update', (req, res) => {
+    Model.findByIdAndUpdate()
+    .then((result) => {
+        res.status(200).json(result)
+    }).catch((err) => {
+        console.log(err);
+        
+        res.status(500).json(err)
+    });
+   
 })
-router.get('/delete',(req,res)=>{
-    res.send('response from post delete')
-})
+router.delete('/delete/:id', (req, res) => {
+    Model.findByIdAndDelete(req.params.id)
+    .then((result) => {
+        res.status(200).json(result)
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(err)
+    });
+});
+
+
 module.exports=router

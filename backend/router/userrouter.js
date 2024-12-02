@@ -26,13 +26,11 @@ router.get('/getall', (req, res) => {
         .then((result) => {
             res.status(200).json(result)
         }).catch((err) => {
-            console.log(err);
-            if(err==11000){
-                res.status(500).json({message:'email already registered'})
-            }
+            res.status(500).json(err)
+        });
       
 
-        });
+       
 
 
 
@@ -60,8 +58,8 @@ router.get('/update', (req, res) => {
     });
    
 })
-router.get('/delete', (req, res) => {
-    Model.findByIdAndDelete()
+router.delete('/delete/:id', (req, res) => {
+    Model.findByIdAndDelete(req.params.id)
     .then((result) => {
         res.status(200).json(result)
     }).catch((err) => {
