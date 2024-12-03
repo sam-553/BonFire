@@ -5,7 +5,8 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import { IconCheck, IconLoader3 } from '@tabler/icons-react';
+import { IconCheck, IconLoader3, IconUpload } from '@tabler/icons-react';
+import Header from '../component/Header';
 
 const managecummunitySchema = Yup.object().shape({
   title: Yup.string().required('Write a title here'),
@@ -15,7 +16,6 @@ const managecummunitySchema = Yup.object().shape({
 const Rightsidebar = () => {
   const router = useRouter();
   const [communityList, setCommunityList] = useState([]);
-  const [darkMode, setDarkMode] = useState(false);
 
   const managecommunityForm = useFormik({
     initialValues: {
@@ -23,7 +23,6 @@ const Rightsidebar = () => {
       image: '',
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      console.log(values);
       axios.post('http://localhost:5000/community/add', values)
         .then((result) => {
           toast.success('Community created');
@@ -72,89 +71,92 @@ const Rightsidebar = () => {
     }
   };
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark', darkMode);
-  };
-
   return (
-    <div className={`min-h-screen bg-cover bg-center bg-fixed ${darkMode ? 'bg-dark-bg text-dark-text' : 'bg-light-bg text-light-text'}`} style={{ backgroundImage: 'url(images/combg1.avif)' }}>
-      <div className="flex justify-between sm:flex-row space-y-5 sm:space-y-0 sm:space-x-5 px-4 py-12 sm:py-16">
+    <>
+    
+    <div className="min-h-screen bg-cover bg-center  bg-fixed dark:bg-gray-800">
+    <Header></Header>
+      <div className=" px-4 mt-5  ">
         {/* Left Side Form */}
-        <div className="w-full sm:w-[320px] md:w-[350px] lg:w-[400px] bg-gray-900 bg-opacity-90 border mt-5 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 border-gray-800 mt-5">
-          <form className="space-y-6 mt-5" onSubmit={managecommunityForm.handleSubmit}>
-            {/* Title Input */}
-            <div>
-              <label htmlFor="title" className="block mb-2 text-lg font-medium">
-                Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                onChange={managecommunityForm.handleChange}
-                value={managecommunityForm.values.title}
-                className="bg-gray-700 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400"
-                placeholder="Enter community title"
-              />
-              {managecommunityForm.errors.title && managecommunityForm.touched.title && (
-                <p className="text-xs text-red-600 mt-2">{managecommunityForm.errors.title}</p>
-              )}
-            </div>
+        <div className="w-full bg-white dark:bg-gray-900 dark:border-gray-700 border rounded-lg shadow-lg sm:p-8 transition-all duration-300 ">
+  <form className="space-y-6 " onSubmit={managecommunityForm.handleSubmit}>
+    {/* Form Fields in Row */}
+    <div className="flex justify-between items-center">
+      {/* Title Input */}
+      <div children='w-full'>
+        <label htmlFor="title" className="  block mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+      
+        </label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={managecommunityForm.handleChange}
+          value={managecommunityForm.values.title}
+          className="bg-transparent dark:bg-gray-800 w-[400px] dark:text-white border border-gray-300 dark:border-gray-500 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  p-3 transition-all duration-300"
+          placeholder="Enter community title"
+          aria-label="Community Title"
+        />
+        {managecommunityForm.errors.title && managecommunityForm.touched.title && (
+          <p className="text-xs text-red-600 mt-2">{managecommunityForm.errors.title}</p>
+        )}
+      </div>
+      
+    
+      {/* Image Upload */}
+      <div>
+        <label htmlFor="image" className=" dark:bg-transparent dark:text-white border border-gray-300 dark:border-gray-500 text-lg rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none  p-2 pr-5 text-center transition-all duration-300 mr-[400px] flex items-center ">
+          <span className='mr-2 pl-5 text-blue-500 '><IconUpload></IconUpload></span>cover
+        </label>
+        <input
+          type="file"
+          id="image"
+          onChange={uploadImage}
+          className="hidden"
+          required
+          aria-label="Upload Image"
+        />
+      </div>
+    {/* Submit Button */}
+    <button
+      type="submit"
+      disabled={managecommunityForm.isSubmitting || !managecommunityForm.values.image}
+      className="flex items-center justify-center gap-3  py-3 px-4  text-sm  font-medium rounded-lg border border-transparent bg-blue-600 text-white dark:bg-blue-700 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-blue-800 transition-all"
+    >
+      {managecommunityForm.isSubmitting ? <IconLoader3 className="animate-spin" /> : <IconCheck />}
+      {managecommunityForm.isSubmitting ? 'Uploading...' : 'Create Community'}
+    </button>
 
-            {/* Image Upload */}
-            <div>
-              <label htmlFor="image" className="bg-gray-700 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 text-center">
-                Upload Image
-              </label>
-              <input
-                type="file"
-                id="image"
-                onChange={uploadImage}
-                className="hidden"
-                required
-              />
-            </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={managecommunityForm.isSubmitting || !managecommunityForm.values.image}
-              className="flex items-center justify-center gap-3 w-full py-3 px-4 mt-3 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 "
-            >
-              {managecommunityForm.isSubmitting ? <IconLoader3 className="animate-spin" /> : <IconCheck />}
-              {managecommunityForm.isSubmitting ? 'Uploading...' : 'Create Community'}
-            </button>
-          </form>
-        </div>
+    </div>
+  </form>
+</div>
+
 
         {/* Right Side - Your Community List */}
-        <div className="w-full sm:w-[320px] md:w-[350px] lg:w-[500px] bg-gray-900 bg-opacity-95 border mt-5 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 border-gray-800 sticky top-24">
+        <div className="w-full bg-white bg-opacity-90 dark:bg-gray-800 dark:border-gray-700 border mt-5 rounded-lg shadow-sm sm:p-8 sticky top-24 transition-all duration-300 ">
           <div className="flex items-center justify-between">
-            <h5 className="text-xl font-bold">Your Communities</h5>
-            <button onClick={toggleDarkMode} className="text-white">
-              Toggle Dark Mode
-            </button>
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">Your Communities</h5>
           </div>
           <div className="flow-root mt-5">
             {communityList.length === 0 ? (
-              <p className="text-sm text-gray-400">No communities available</p>
+              <p className="text-sm text-gray-400 dark:text-gray-300">No communities available</p>
             ) : (
               communityList.map((community) => (
-                <div key={community._id} className="py-3 sm:py-4">
+                <div key={community._id} className="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300">
                   <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                     <li>
                       <div className="flex items-center justify-between">
                         <div className="flex-shrink-0">
-                          <img className="h-16" src={community.image} alt="Community Avatar" />
+                          <img className="h-16 rounded-md" src={community.image} alt="Community Avatar" />
                         </div>
-                        <div className="flex-1 min-w-0 ms-4">
-                          <p className="text-sm font-medium text-white truncate">{community.title}</p>
+                        <div className="mr-[800px] min-w-0 ms-4">
+                          <p className="text-md  font-medium text-gray-900 dark:text-white truncate">{community.title}</p>
                         </div>
                         <button
-                          className="inline-flex items-center text-base font-semibold text-red-500"
+                          className="inline-flex items-center text-base font-semibold text-red-500 hover:text-red-700 transition-all duration-300"
                           onClick={() => deleteCommunity(community._id)}
+                          aria-label="Delete Community"
                         >
                           Remove
                         </button>
@@ -168,6 +170,7 @@ const Rightsidebar = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

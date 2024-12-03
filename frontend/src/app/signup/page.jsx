@@ -41,14 +41,11 @@ const Signup = () => {
             confirmpassword: ''
         },
         onSubmit: (values, { resetForm, setSubmitting }) => {
-            console.log(values);
             axios.post('http://localhost:5000/user/add', values)
                 .then((result) => {
                     toast.success('connected')
-                    resetForm()
-
+                    router.push('/home')
                 }).catch((err) => {
-                    console.log(err);
                     toast.error(err?.response?.data?.message || 'something went wrong')
                     setSubmitting(false)
                 });
@@ -57,30 +54,30 @@ const Signup = () => {
     })
 
     return (
-        <div className="w-full bg-gray-950 h-screen">
-            <div className="bg-gray-900 flex flex-col sm:flex-row justify-center items-center h-full w-[1000px] mx-auto">
+        <div className="w-full h-screen bg-gray-100 dark:bg-gray-950">
+            <div className="bg-white dark:bg-gray-900 flex flex-col sm:flex-row justify-center items-center h-full w-[1000px] mx-auto shadow-lg rounded-lg">
                 {/* Left side with image */}
                 <div className="w-full sm:w-1/2 h-full">
-                    <img className="w-full h-full object-cover" src="images/signup.jpg" alt="Signup Image" />
+                    <img className="w-full h-full object-cover rounded-l-lg" src="images/signup.jpg" alt="Signup Image" />
                 </div>
 
                 {/* Form */}
-                <form className="w-full sm:w-1/2 mx-auto p-6 sm:p-8 mt-6 sm:mt-0 h-full flex flex-col justify-center bg-gray-900 dark:bg-gray-800 rounded-lg shadow-lg"
+                <form className="w-full sm:w-1/2 mx-auto p-6 sm:p-8 mt-6 sm:mt-0 h-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-tl-none  rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700"
                     onSubmit={signupForm.handleSubmit}>
-                    <h2 className="text-4xl text-blue-800 font-bold  flex mb-2">
+                    <h2 className="text-4xl text-blue-800 dark:text-orange-500 font-bold  flex mb-2">
                         <IconCampfireFilled stroke={2} className="h-14 w-14 text-orange-500 mr-2" />
                         <span className='mt-4'>BonFire</span>
                     </h2>
-                    <div className="text-white py-4  mb-4">
+                    <div className="text-gray-800 dark:text-white py-4  mb-4">
                         <p>Create your account</p>
                     </div>
 
                     {/* First Name and Last Name */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                         <div className="flex flex-col">
-                            <label className="text-gray-400">First Name</label>
+                            <label className="text-gray-600 dark:text-gray-300">First Name</label>
                             <input
-                                className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 text-gray-200"
+                                className="bg-gray-100 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none border-2 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-md transition-all"
                                 type="text"
                                 id="fname"
                                 onChange={signupForm.handleChange}
@@ -91,9 +88,9 @@ const Signup = () => {
                         </div>
 
                         <div className="flex flex-col">
-                            <label className="text-gray-400">Last Name</label>
+                            <label className="text-gray-600 dark:text-gray-300">Last Name</label>
                             <input
-                                className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 text-gray-200"
+                                className="bg-gray-100 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none border-2 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-md transition-all"
                                 type="text"
                                 id="lname"
                                 onChange={signupForm.handleChange}
@@ -106,9 +103,9 @@ const Signup = () => {
 
                     {/* Email Field */}
                     <div className="flex flex-col py-4 ">
-                        <label className="text-gray-400">Email Address</label>
+                        <label className="text-gray-600 dark:text-gray-300">Email Address</label>
                         <input
-                            className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 w-full text-gray-200"
+                            className="bg-gray-100 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none border-2 border-gray-300 dark:border-gray-600 w-full text-gray-800 dark:text-gray-200 rounded-md transition-all"
                             type="email"
                             id="email"
                             onChange={signupForm.handleChange}
@@ -118,26 +115,12 @@ const Signup = () => {
                         )}
                     </div>
 
-                    {/* Profile Picture */}
-                    {/* <div className="flex flex-col py-4 ">
-                        <label className="text-gray-400">Add Profile</label>
-                        <input
-                            className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 w-full"
-                            type="file"
-                            id="profile"
-                            onChange={signupForm.handleChange}
-                            value={signupForm.values.profile} />
-                        {signupForm.errors.profile && signupForm.touched.profile && (
-                            <p className="text-xs text-red-600 ">{signupForm.errors.profile}</p>
-                        )}
-                    </div> */}
-
                     {/* Password Fields */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                         <div className="flex flex-col">
-                            <label className="text-gray-400">Password</label>
+                            <label className="text-gray-600 dark:text-gray-300">Password</label>
                             <input
-                                className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 text-gray-200"
+                                className="bg-gray-100 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none border-2 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-md transition-all"
                                 type="password"
                                 id="password"
                                 onChange={signupForm.handleChange}
@@ -148,9 +131,9 @@ const Signup = () => {
                         </div>
 
                         <div className="flex flex-col">
-                            <label className="text-gray-400">Confirm Password</label>
+                            <label className="text-gray-600 dark:text-gray-300">Confirm Password</label>
                             <input
-                                className="bg-gray-700 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 text-gray-200"
+                                className="bg-gray-100 dark:bg-gray-700 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none border-2 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-md transition-all"
                                 type="password"
                                 id="confirmpassword"
                                 onChange={signupForm.handleChange}
@@ -165,16 +148,16 @@ const Signup = () => {
                     <button
                         type="submit"
                         disabled={signupForm.isSubmitting}
-                        className="flex items-center justify-center gap-3 w-full py-3 px-4 mt-4 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white 
-                        shadow-blue-600/50 hover:shadow-blue-600/40 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        className="flex items-center justify-center gap-3 w-full py-3 px-4 mt-4 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white dark:bg-blue-700 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-blue-800 transition-all"
+                    >
                         {signupForm.isSubmitting ? <IconLoader3 className="animate-spin" /> : <IconCheck />}
                         {signupForm.isSubmitting ? 'Submitting...' : 'Sign Up'}
                     </button>
 
                     {/* Login Redirect */}
                     <div className="mt-4 flex justify-center">
-                        <p className="text-gray-400">Already have an account?</p>
-                        <Link href="login" className="text-blue-600 ml-2 hover:underline">
+                        <p className="text-gray-600 dark:text-gray-300">Already have an account?</p>
+                        <Link href="login" className="text-blue-600 ml-2 hover:underline dark:text-blue-400">
                             Login
                         </Link>
                     </div>
