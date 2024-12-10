@@ -44,7 +44,7 @@ const Signup = () => {
             axios.post('http://localhost:5000/user/add', values)
                 .then((result) => {
                     toast.success('connected')
-                    router.push('/home')
+                    router.push('/login')
                 }).catch((err) => {
                     toast.error(err?.response?.data?.message || 'something went wrong')
                     setSubmitting(false)
@@ -58,7 +58,7 @@ const Signup = () => {
             <div className="bg-white dark:bg-gray-900 flex flex-col sm:flex-row justify-center items-center h-full w-[1000px] mx-auto shadow-lg rounded-lg">
                 {/* Left side with image */}
                 <div className="w-full sm:w-1/2 h-full">
-                    <img className="w-full h-full object-cover rounded-l-lg" src="images/signup.jpg" alt="Signup Image" />
+                    <img className="w-full h-full object-cover rounded-l-lg" src="images/signup.avif" alt="Signup Image" />
                 </div>
 
                 {/* Form */}

@@ -3,13 +3,14 @@ import { IconCheck, IconLoader3, IconUpload } from '@tabler/icons-react';
 import axios from 'axios';
 import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import Header from '../component/Header';
 
 const createpostSchema = Yup.object().shape({
   caption: Yup.string().required('write some caption here'),
+  communityName: Yup.string().required('write CommunityName here'),
   postedby: Yup.string().required('Add your name'),
   image: Yup.string().required('image is required for post')
 })
@@ -19,10 +20,24 @@ const createpostSchema = Yup.object().shape({
 const Createpost = () => {
   const router = useRouter()
   const [previewUrl, setPreviewUrl] = useState('');
+  const [communities, setCommunities] = useState([]);
+
+  const fetchCommunities = async () => {
+    const res = await axios.get('http://localhost:5000/community/getall');
+    console.log(res.data);
+    setCommunities(res.data);
+
+  }
+
+  useEffect(() => {
+    fetchCommunities();
+  }, [])
+
 
   const createpostForm = useFormik({
     initialValues: {
       caption: '',
+      communityName: '',
       image: '',
       postedby: ''
     },
@@ -90,6 +105,35 @@ const Createpost = () => {
                 <p className="text-xs text-red-600 mt-2">{createpostForm.errors.caption}</p>
               )}
             </div>
+            <div>
+              <label
+                htmlFor="communityName"
+                className="block mb-2 text-sm font-medium text-white"
+              >
+                Community Name
+              </label>
+              <select
+                type="text"
+                name="communityName"
+                id="communityName"
+                onChange={createpostForm.handleChange}
+                value={createpostForm.values.communityName}
+                className="bg-gray-500 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 w-full dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 text-white "
+                placeholder="Add a communityName"
+                required
+              >
+                <option value="">Select Community</option>
+                {
+                  communities.map(com => (
+                    <option key={com._id} value={com.title}>{com.title}</option>
+                  ))
+                }
+
+              </select>
+              {createpostForm.errors.communityName && createpostForm.touched.communityName && (
+                <p className="text-xs text-red-600 mt-2">{createpostForm.errors.communityName}</p>
+              )}
+            </div>
 
             {/* Posted By Input */}
             <div>
@@ -118,7 +162,7 @@ const Createpost = () => {
             <div>
               <label
                 htmlFor="image"
-                className="bg-green-600 border border-gray-300 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 text-center dark:border-gray-500 dark:placeholder-gray-400 text-white flex items-center justify-center"
+                className=" border border-gray-300 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 text-center dark:border-gray-500 dark:placeholder-gray-400 text-white flex items-center justify-center"
               >
                 <IconUpload className=''></IconUpload>     Select Image
               </label>

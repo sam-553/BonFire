@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IconBrandDatabricks, IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconMapPin, IconPhotoPlus } from '@tabler/icons-react';
-import Link from 'next/link';
+import Link from 'next/link'
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-const Leftsidebar = () => {
+const Leftsidebar = ({ avatar }) => {
+
+  console.log(avatar);
+  
+  const router = useRouter();
+  // console.log(id);
+
+  const [userData, setUserData] = useState(null);
+
+  const fetchUserData = async (id) => {
+    const res = await axios.get(`http://localhost:5000/user/getbyid/${id}`);
+    console.log(res.data);
+    setUserData(res.data);
+  }
+
+  useEffect(() => {
+    fetchUserData();
+  }, [])
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('upload_preset', 'preset553');
+    formData.append('cloud_name', 'dwol2gffj');
+
+    const res = await axios.post('https://api.cloudinary.com/v1_1/dwol2gffj/image/upload', formData);
+    if (res.status === 200) {
+      createpostForm.setFieldValue('image', res.data.url);
+      setPreviewUrl(res.data.url);
+      updateProfile({ avatar: res.data.url });
+    }
+  };
+
+  const updateProfile = async (values) => {
+    console.log(values);
+
+    const res = await axios.put(`http://localhost:5000/user/update/${userData._id}`, values);
+    if (res.status === 200) {
+      toast.success('profile Updated Successfully');
+      fetchUserData();
+    }
+
+  }
+
+
   return (
     <div className="w-full sm:w-[320px] max-w-md p-4 mt-5 ml-4 rounded-lg shadow sm:p-8 sticky top-24 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
       <div className="flow-root">
@@ -13,7 +61,7 @@ const Leftsidebar = () => {
               <div className="flex-shrink-0">
                 <img
                   className="w-12 h-12 rounded-full border-2 border-white transition-all duration-300 ease-in-out hover:border-blue-500"
-                  src="images/friend.png"
+                  src={avatar}
                   alt="User Avatar"
                 />
               </div>
@@ -23,9 +71,15 @@ const Leftsidebar = () => {
               </div>
               <div className="inline-flex items-center text-base font-semibold text-blue-600 dark:text-blue-400 cursor-pointer transition-all duration-300 ease-in-out hover:text-blue-400">
                 <IconPhotoPlus
-                
-                
+
+
                 />
+                <input
+                type="file"
+                className='hidden'
+                onChange={uploadImage}
+                required
+              />
               </div>
             </div>
           </li>
@@ -63,23 +117,27 @@ const Leftsidebar = () => {
         <div className="mt-4 mx-4">
           <p className="text-gray-600 text-md text-gray-900 dark:text-white font-bold">Social Profile</p>
           <div className="flex flex-col mt-2 gap-2">
-            <Link href="https://www.instagram.com" passHref>
+            <Link href="https://www.instagram.com//sampandit553" passHref>
               <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
                 <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
               </p>
             </Link>
-            <Link href="https://www.twitter.com" passHref>
+            <Link href="https://x.com/sampandit553?t=KMZpaBvKBikq-0bmcgk67w&s=09" passHref>
               <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
                 <IconBrandTwitter className="text-gray-300 dark:text-gray-600" /> Twitter
               </p>
             </Link>
-            <Link href="https://www.facebook.com" passHref>
+            <Link href="https://www.facebook.com/pandit.sameertiwari.3" passHref>
               <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
                 <IconBrandFacebook className="text-gray-300 dark:text-gray-600" /> Facebook
               </p>
             </Link>
           </div>
         </div>
+        <div className="border-b border-b-gray-600 mt-2"></div>
+        <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 text-sm m-2 dark:hover:text-blue-400">
+          © 2024, Sameer Tiwari
+        </p>
       </div>
     </div>
   );

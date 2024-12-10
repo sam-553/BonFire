@@ -93,7 +93,7 @@ const Rightsidebar = () => {
           id="title"
           onChange={managecommunityForm.handleChange}
           value={managecommunityForm.values.title}
-          className="bg-transparent dark:bg-gray-800 w-[400px] dark:text-white border border-gray-300 dark:border-gray-500 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  p-3 transition-all duration-300"
+          className="bg-transparent dark:bg-gray-800 w-[650px] dark:text-white border border-gray-300 dark:border-gray-500 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  p-3 transition-all duration-300"
           placeholder="Enter community title"
           aria-label="Community Title"
         />
@@ -105,7 +105,7 @@ const Rightsidebar = () => {
     
       {/* Image Upload */}
       <div>
-        <label htmlFor="image" className=" dark:bg-transparent dark:text-white border border-gray-300 dark:border-gray-500 text-lg rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none  p-2 pr-5 text-center transition-all duration-300 mr-[400px] flex items-center ">
+        <label htmlFor="image" className=" dark:bg-transparent dark:text-white border border-gray-300 dark:border-gray-500 text-lg rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none  p-2 pr-5 text-center transition-all duration-300  flex items-center ">
           <span className='mr-2 pl-5 text-blue-500 '><IconUpload></IconUpload></span>cover
         </label>
         <input
@@ -121,7 +121,7 @@ const Rightsidebar = () => {
     <button
       type="submit"
       disabled={managecommunityForm.isSubmitting || !managecommunityForm.values.image}
-      className="flex items-center justify-center gap-3  py-3 px-4  text-sm  font-medium rounded-lg border border-transparent bg-blue-600 text-white dark:bg-blue-700 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-blue-800 transition-all"
+      className="flex items-center justify-center gap-3  py-3 px-4  text-sm  font-medium rounded-lg border border-transparent bg-blue-600 text-white dark:bg-blue-700   dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-blue-800 transition-all"
     >
       {managecommunityForm.isSubmitting ? <IconLoader3 className="animate-spin" /> : <IconCheck />}
       {managecommunityForm.isSubmitting ? 'Uploading...' : 'Create Community'}

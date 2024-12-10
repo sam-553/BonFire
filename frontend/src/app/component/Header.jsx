@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { IconBellRingingFilled, IconCampfireFilled, IconSearch, IconSun, IconMoon } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
+  const router=useRouter();
   const [darkMode, setDarkMode] = useState(false);
 
   // Check the saved mode preference from localStorage (if any)
@@ -30,9 +32,13 @@ const Header = () => {
       return newMode;
     });
   };
+  const removeToken=()=>{
+    localStorage.removeItem('token');
+    router.push('/login')
+  }
 
   return (
-    <header className="h-16 shadow-xl sticky top-0 z-10 transition-all duration-300 ease-in-out">
+    <header className="h-16 shadow-xl sticky top-0  transition-all duration-300 ease-in-out ">
       <div className={`h-full container mx-auto flex flex-col sm:flex-row items-center px-4 sm:px-12 justify-between bg-white dark:bg-gray-900`}>
 
         {/* Logo Section */}
@@ -73,17 +79,13 @@ const Header = () => {
             )}
           </div>
 
-          {/* Notification Icon */}
-          <div className="text-2xl relative text-gray-700 dark:text-white cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out">
-            <IconBellRingingFilled />
-            <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
-          </div>
-
+          
           {/* Log out button */}
           <div>
-            <Link href="/login" className="px-4 py-2 text-white rounded-full bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out">
+            <button className="px-4 py-2 text-white rounded-full bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out" onClick={removeToken}>
               Log out
-            </Link>
+              
+            </button>
           </div>
           <div>
             <Link href="/signup" className="px-4 py-2 text-white rounded-full bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out">

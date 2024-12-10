@@ -9,22 +9,31 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 const loginSchema = Yup.object().shape({
-  name: Yup.string().required('Username is required'),
+  email: Yup.string().email('Email is required').required('please enter email'),
   password: Yup.string().required('Password is required'),
-  profile: Yup.string()
+ 
 });
 
 const Login = () => {
   const router = useRouter();
   const loginForm = useFormik({
     initialValues: {
-      name: '',
-      profile: '',
+      email: '',
       password: ''
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm, setSubmitting }) => {
       console.log(values);
-      
+      axios.post('http://localhost:5000/user/authenticate', values)
+        .then((result) => {
+          toast.success('login successfully')
+          resetForm()
+          localStorage.setItem('token', result.data.token);
+          
+          router.push("/")
+        }).catch((err) => {
+          toast.error('invalid email or password')
+          setSubmitting(false)
+        });
     },
     validationSchema: loginSchema
   });
@@ -47,16 +56,16 @@ const Login = () => {
 
           {/* Username Field */}
           <div className="flex flex-col py-2">
-            <label className="text-gray-700 dark:text-gray-300">Username</label>
+            <label className="text-gray-700 dark:text-gray-300">Email Address</label>
             <input
               className="rounded-2xl bg-gray-100 dark:bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:outline-none border-2 border-gray-500 text-gray-800 dark:text-gray-200 dark:border-gray-600 transition-all"
               type="text"
-              id="name"
+              id="email"
               onChange={loginForm.handleChange}
-              value={loginForm.values.name}
+              value={loginForm.values.email}
             />
-            {loginForm.errors.name && loginForm.touched.name && (
-              <p className="text-xs text-red-600 mt-2">{loginForm.errors.name}</p>
+            {loginForm.errors.email && loginForm.touched.email && (
+              <p className="text-xs text-red-600 mt-2">{loginForm.errors.email}</p>
             )}
           </div>
 
@@ -88,9 +97,9 @@ const Login = () => {
           <button
             type="submit"
             disabled={loginForm.isSubmitting}
-            className="flex items-center gap-3 w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 mt-4 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white shadow-blue-600/50 hover:shadow-blue-600/40 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none transition-all"
+            className="flex items-center gap-3 w-full py-3 px-4 inline-flex justify-center  gap-x-2 mt-4 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white shadow-blue-600/50 hover:shadow-blue-600/40 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none transition-all"
           >
-           sign in
+            sign in
           </button>
 
           {/* Create Account Link */}
@@ -106,7 +115,7 @@ const Login = () => {
         </form>
 
         {/* Image Section */}
-        <div className="hidden sm:block w-full h-full bg-cover bg-center rounded-tr-lg rounded-br-lg transition-all" style={{ backgroundImage: "url('images/login2.jpg')" }}></div>
+        <div className="hidden sm:block w-full h-full bg-cover bg-center rounded-tr-lg rounded-br-lg transition-all" style={{ backgroundImage: "url('images/login2.avif')" }}></div>
       </div>
     </div>
   );

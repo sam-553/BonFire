@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-const ManagePost = ({ selCommunity }) => {
+const Feed = ({ selCommunity }) => {
   const [postList, setPostList] = useState([])
   const [masterList, setMasterList] = useState([]);
 
@@ -43,20 +43,7 @@ const ManagePost = ({ selCommunity }) => {
   }, [selCommunity])
 
 
-  const deletePost = async (id) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
-    try {
-      const res = await axios.delete(`http://localhost:5000/post/delete/${id}`)
-      if (res.status === 200) {
-        fetchPost()
-        toast.success('Post deleted successfully');
-      } else {
-        toast.error('Failed to delete post');
-      }
-    } catch (error) {
-      toast.error('An error occurred while deleting the post.');
-    }
-  }
+ 
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -105,18 +92,13 @@ const ManagePost = ({ selCommunity }) => {
                   </ul>
                 </div>
               </div>
-              <span
-                className="text-2xl text-black dark:text-white cursor-pointer hover:text-red-500"
-                onClick={() => deletePost(post._id)}
-              >
-                <IconBackspace />
-              </span>
+            
             </div>
 
             <div className="space-y-4 px-4 pb-4">
               <p className="text-lg text-black dark:text-neutral-200">{post.caption}</p>
 
-              <img className="w-full object-cover rounded-xl mb-4" src={post.image} alt="post" />
+              <img className="w-full h-80 object-cover rounded-xl mb-4" src={post.image} alt="post" />
 
               <div className="flex justify-between text-black dark:text-white text-sm">
                 <a
@@ -146,4 +128,4 @@ const ManagePost = ({ selCommunity }) => {
   )
 }
 
-export default ManagePost
+export default Feed
