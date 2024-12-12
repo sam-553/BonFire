@@ -28,15 +28,8 @@ router.get('/getall', (req, res) => {
         }).catch((err) => {
             res.status(500).json(err)
         });
-      
-
-       
-
-
-
 })
 router.get('getbyid', (req, res) => {
-
     Model.findById()
     .then((result) => {
        res.status(200).json(result) 
@@ -55,8 +48,7 @@ router.get('/update', (req, res) => {
         console.log(err);
         
         res.status(500).json(err)
-    });
-   
+    });  
 })
 router.delete('/delete/:id', (req, res) => {
     Model.findByIdAndDelete(req.params.id)

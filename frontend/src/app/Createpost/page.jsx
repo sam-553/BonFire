@@ -20,6 +20,8 @@ const createpostSchema = Yup.object().shape({
 const Createpost = () => {
   const router = useRouter()
   const [previewUrl, setPreviewUrl] = useState('');
+
+
   const [communities, setCommunities] = useState([]);
 
   const fetchCommunities = async () => {

@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 const Feed = ({ selCommunity }) => {
   const [postList, setPostList] = useState([])
   const [masterList, setMasterList] = useState([]);
+ 
 
   const filterPosts = (e) => {
     const v = e.target.value;
@@ -20,7 +21,7 @@ const Feed = ({ selCommunity }) => {
     try {
       const res = await axios.get('http://localhost:5000/post/getall')
       console.log(res.data);
-      
+    
       setPostList(res.data)
       setMasterList(res.data);
     } catch (error) {
@@ -42,6 +43,7 @@ const Feed = ({ selCommunity }) => {
     }
   }, [selCommunity])
 
+  
 
  
 
@@ -105,7 +107,7 @@ const Feed = ({ selCommunity }) => {
                   className="flex items-center gap-2 cursor-pointer hover:text-pink-500"
                   href="#"
                 >
-                  <IconHeart /> <span>{post.likes || 0} likes</span>
+                  <IconHeart   /> <span>likes</span>
                 </a>
                 <a
                   className="flex items-center gap-2 cursor-pointer hover:text-blue-500"

@@ -103,7 +103,10 @@ const Homepage = () => {
       <div className="w-full px-10 gap-5 h-full flex bg-gray-100 dark:bg-gray-950">
         {/* Left Section */}
         <div className="">
-          <Leftsidebar avatar={currentUser?.avatar} />
+          {
+            currentUser !== null &&
+            <Leftsidebar avatar={currentUser?.avatar} fname={currentUser?.fname} lname={currentUser?.lname} url={currentUser?.url} loadUser={fetchUserData} id={currentUser._id} />
+          }
         </div>
 
         {/* Center Section */}

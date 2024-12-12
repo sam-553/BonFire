@@ -1,27 +1,16 @@
+'use client'
 import React, { useEffect, useState } from 'react';
 import { IconBrandDatabricks, IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconMapPin, IconPhotoPlus } from '@tabler/icons-react';
 import Link from 'next/link'
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
-const Leftsidebar = ({ avatar }) => {
+import toast from 'react-hot-toast';
 
-  console.log(avatar);
+const Leftsidebar = ({ avatar,fname,lname,loadUser, id }) => {
+
+
   
-  const router = useRouter();
-  // console.log(id);
-
-  const [userData, setUserData] = useState(null);
-
-  const fetchUserData = async (id) => {
-    const res = await axios.get(`http://localhost:5000/user/getbyid/${id}`);
-    console.log(res.data);
-    setUserData(res.data);
-  }
-
-  useEffect(() => {
-    fetchUserData();
-  }, [])
+  
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
@@ -33,8 +22,6 @@ const Leftsidebar = ({ avatar }) => {
 
     const res = await axios.post('https://api.cloudinary.com/v1_1/dwol2gffj/image/upload', formData);
     if (res.status === 200) {
-      createpostForm.setFieldValue('image', res.data.url);
-      setPreviewUrl(res.data.url);
       updateProfile({ avatar: res.data.url });
     }
   };
@@ -42,14 +29,43 @@ const Leftsidebar = ({ avatar }) => {
   const updateProfile = async (values) => {
     console.log(values);
 
-    const res = await axios.put(`http://localhost:5000/user/update/${userData._id}`, values);
+    const res = await axios.put(`http://localhost:5000/user/update/${id}`, values);
     if (res.status === 200) {
       toast.success('profile Updated Successfully');
-      fetchUserData();
+      loadUser();
     }
 
   }
 
+
+ 
+//saver social media 
+const [isinputVisible, setisinputVisible] = useState(false)
+const [url, seturl] = useState('')
+const [submit, setsubmit] = useState('')
+  const handleiconclick=()=>{
+    setisinputVisible(true)
+  }
+
+  const handleinputchange=(event)=>{
+    seturl(event.target.value)
+  }
+  
+const handlesubmit=async (event)=>{
+  event.preventDefault();
+  if(url && isValidUrl(url)){
+    setsubmit(url)
+    seturl('')
+    setisinputVisible(false)
+  
+  }else{
+    toast.error('please inter a valid url')
+  }
+}
+const isValidUrl = (string) => {
+  const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+  return regex.test(string);
+};
 
   return (
     <div className="w-full sm:w-[320px] max-w-md p-4 mt-5 ml-4 rounded-lg shadow sm:p-8 sticky top-24 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
@@ -66,20 +82,23 @@ const Leftsidebar = ({ avatar }) => {
                 />
               </div>
               <div className="flex-1 min-w-0 ms-4">
-                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">User Name</p>
-                <p className="text-sm text-gray-600 dark:text-gray-600 truncate">Caption</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{fname} {lname}</p>
+                
               </div>
-              <div className="inline-flex items-center text-base font-semibold text-blue-600 dark:text-blue-400 cursor-pointer transition-all duration-300 ease-in-out hover:text-blue-400">
-                <IconPhotoPlus
-
-
-                />
+              <div>
+              <label
+              htmlFor='profile'
+              className="inline-flex items-center text-base font-semibold text-blue-600 dark:text-blue-400 cursor-pointer transition-all duration-300 ease-in-out hover:text-blue-400">
+                <IconPhotoPlus/>
+                </label>
                 <input
-                type="file"
-                className='hidden'
-                onChange={uploadImage}
-                required
-              />
+                  type="file"
+                  id='profile'
+                  className='hidden'
+                  onChange={uploadImage}
+                  required
+                />
+              
               </div>
             </div>
           </li>
@@ -90,7 +109,7 @@ const Leftsidebar = ({ avatar }) => {
 
         {/* User Info */}
         <div className="mx-4 mt-4">
-          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600" /> Add Location</p>
+          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600" />Add location </p>
           <p className="text-gray-600 flex mt-2 gap-2 dark:text-gray-300"><IconBrandDatabricks className="text-gray-300 dark:text-gray-600" /> Add Profession</p>
         </div>
 
@@ -117,27 +136,44 @@ const Leftsidebar = ({ avatar }) => {
         <div className="mt-4 mx-4">
           <p className="text-gray-600 text-md text-gray-900 dark:text-white font-bold">Social Profile</p>
           <div className="flex flex-col mt-2 gap-2">
-            <Link href="https://www.instagram.com//sampandit553" passHref>
-              <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
+            {!isinputVisible && !submit &&(
+            <p >
+              <button className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" onClick={handleiconclick}>
                 <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
+              </button>
+            </p>
+            )}
+            {isinputVisible &&(
+              <form onSubmit={handlesubmit} >
+              <p className='flex '>
+              <input
+              type='text'
+              value={url}
+              onChange={handleinputchange}
+              className="text-gray-600 flex gap-2  hover:text-blue-500  dark:text-gray-400 dark:hover:text-blue-400 bg-gray-300 rounded-full px-2 dark:bg-gray-600 "
+              />
+                <button type='submit' className='" text-white rounded-full p-1 ml-5  bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out'> save</button>
               </p>
-            </Link>
-            <Link href="https://x.com/sampandit553?t=KMZpaBvKBikq-0bmcgk67w&s=09" passHref>
-              <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
-                <IconBrandTwitter className="text-gray-300 dark:text-gray-600" /> Twitter
-              </p>
-            </Link>
-            <Link href="https://www.facebook.com/pandit.sameertiwari.3" passHref>
-              <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400">
-                <IconBrandFacebook className="text-gray-300 dark:text-gray-600" /> Facebook
-              </p>
-            </Link>
+              
+            </form>
+            )}
+
+            
+            
+           <div>
+            {submit &&(
+               <Link href={submit} >
+               <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" >
+                 <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
+               </p>
+             </Link>
+
+            )}
+           </div>
           </div>
         </div>
-        <div className="border-b border-b-gray-600 mt-2"></div>
-        <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 text-sm m-2 dark:hover:text-blue-400">
-          © 2024, Sameer Tiwari
-        </p>
+        
+       
       </div>
     </div>
   );

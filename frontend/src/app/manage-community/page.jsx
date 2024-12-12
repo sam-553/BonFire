@@ -134,7 +134,7 @@ const Rightsidebar = () => {
 
 
         {/* Right Side - Your Community List */}
-        <div className="w-full bg-white bg-opacity-90 dark:bg-gray-800 dark:border-gray-700 border mt-5 rounded-lg shadow-sm sm:p-8 sticky top-24 transition-all duration-300 ">
+        <div className="w-full bg-white bg-opacity-90 dark:bg-gray-900 dark:border-gray-700 border mt-5 rounded-lg shadow-sm sm:p-8 sticky top-24 transition-all duration-300 ">
           <div className="flex items-center justify-between">
             <h5 className="text-xl font-bold text-gray-900 dark:text-white">Your Communities</h5>
           </div>
