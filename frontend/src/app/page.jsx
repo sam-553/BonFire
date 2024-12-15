@@ -78,6 +78,7 @@ const Homepage = () => {
 
   const [selCommunity, setSelCommunity] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  
 
   const fetchUserData = async () => {
     const token = localStorage.getItem('token');
@@ -90,10 +91,11 @@ const Homepage = () => {
     setCurrentUser(res.data);
 
   }
-
   useEffect(() => {
     fetchUserData();
   }, [])
+
+  
 
 
   return (
@@ -105,7 +107,7 @@ const Homepage = () => {
         <div className="">
           {
             currentUser !== null &&
-            <Leftsidebar avatar={currentUser?.avatar} fname={currentUser?.fname} lname={currentUser?.lname} url={currentUser?.url} loadUser={fetchUserData} id={currentUser._id} />
+            <Leftsidebar avatar={currentUser?.avatar} fname={currentUser?.fname} link={currentUser?.link} lname={currentUser?.lname}  loadUser={fetchUserData} id={currentUser._id} />
           }
         </div>
 
@@ -113,7 +115,7 @@ const Homepage = () => {
         <div className="flex flex-col  flex-1">
 
 
-          <Feed selCommunity={selCommunity} />
+          <Feed selCommunity={selCommunity}   />
         </div>
 
         {/* Right Section */}

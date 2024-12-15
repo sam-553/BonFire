@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-const Feed = ({ selCommunity }) => {
+const Feed = ({ selCommunity,loadPost,id,likes }) => {
   const [postList, setPostList] = useState([])
   const [masterList, setMasterList] = useState([]);
  
@@ -43,16 +43,12 @@ const Feed = ({ selCommunity }) => {
     }
   }, [selCommunity])
 
-  
-
- 
-
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
   }
-
+  
   return (
     <>
       <div className="lg:w-[500px] md:w-[300px] mx-2  bg-white dark:bg-gray-800 border mt-8 rounded-lg shadow dark:border-gray-700 border-gray-100 sticky top-24 z-10">
@@ -105,10 +101,14 @@ const Feed = ({ selCommunity }) => {
               <div className="flex justify-between text-black dark:text-white text-sm">
                 <a
                   className="flex items-center gap-2 cursor-pointer hover:text-pink-500"
-                  href="#"
+                
+                 
                 >
-                  <IconHeart   /> <span>likes</span>
+                  
+                  
+                  <IconHeart  /> <span>{post.likes}  likes</span>
                 </a>
+
                 <a
                   className="flex items-center gap-2 cursor-pointer hover:text-blue-500"
                   href="#"

@@ -35,18 +35,14 @@ router.get('/getall', (req, res) => {
 })
 router.get('/getpost',verifyToken, (req, res) => {
     const{_id}=req.post;
-    Model.find()
-        .then((result) => {
-            res.status(200).json(result)
-        }).catch((err) => {
-            console.log(err);
-            if(err==11000){
-                res.status(500).json(err)
-            
-            }
-        });
+    Model.findById(_id)
+           .then((result) => {
+               res.status(200).json(result)
+           }).catch((err) => {
+               res.status(500).json(err)
+           });
 })
-router.get('getbyid', (req, res) => {
+router.get('getbyid/:id', (req, res) => {
     Model.findById()
     .then((result) => {
        res.status(200).json(result) 
@@ -55,7 +51,7 @@ router.get('getbyid', (req, res) => {
         res.status(500).json(err)   
     }); 
 })
-router.get('/update', (req, res) => {
+router.put('/update/:id', (req, res) => {
     Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((result) => {
         res.status(200).json(result)

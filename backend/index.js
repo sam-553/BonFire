@@ -2,7 +2,7 @@ const express = require('express');
 //import user router
 const userrouter = require('./router/userrouter')
 const postrouter=require('./router/postrouter')
-const profilerouter=require('./router/profilerouter')
+
 const communityrouter=require('./router/communityrouter')
 const cors=require('cors');
 const app = express();
@@ -15,7 +15,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/user', userrouter)
 app.use('/post',postrouter)
-app.use('/profile',profilerouter)
+
 app.use('/community',communityrouter)
 
 app.get('/', (req, res) => {

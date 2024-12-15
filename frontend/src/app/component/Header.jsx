@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { IconBellRingingFilled, IconCampfireFilled, IconSearch, IconSun, IconMoon } from '@tabler/icons-react';
+import {  IconCampfireFilled, IconSun, IconMoon } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 
 const Header = () => {
@@ -38,8 +38,8 @@ const Header = () => {
   }
 
   return (
-    <header className="h-16 shadow-xl sticky top-0  transition-all duration-300 ease-in-out ">
-      <div className={`h-full container mx-auto flex flex-col sm:flex-row items-center px-4 sm:px-12 justify-between bg-white dark:bg-gray-900`}>
+    <header className="h-16 shadow-xl sticky top-0 z-10  transition-all duration-300 ease-in-out  ">
+      <div className={`h-full container  flex flex-col sm:flex-row items-center px-4 sm:px-12 justify-between bg-white dark:bg-gray-900`}>
 
         {/* Logo Section */}
         <div className="flex items-center justify-between w-full sm:w-auto mb-4 sm:mb-0">
