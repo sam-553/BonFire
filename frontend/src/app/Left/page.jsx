@@ -1,12 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { IconBrandDatabricks, IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconMapPin, IconPhotoPlus } from '@tabler/icons-react';
+import { IconBrandDatabricks, IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconFilePencil, IconMapPin, IconPhotoPlus } from '@tabler/icons-react';
 import Link from 'next/link'
 import axios from 'axios';
 
 import toast from 'react-hot-toast';
 
-const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
+const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link, createdAt }) => {
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
@@ -63,6 +63,22 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
     const regex = /^(ftp|http|https):\/\/[^ "]+$/;
     return regex.test(string);
   };
+  const formatTimestamp = (date) => {
+
+    const now = new Date();
+    const diff = now - new Date(date);
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days}d ago`;
+    if (hours > 0) return `${hours}h ago`;
+    if (minutes > 0) return `${minutes}m ago`;
+    return 'Just now';
+  };
+  
+
+  
 
   return (
     <div className="w-full sm:w-[320px] max-w-md p-4 mt-5 ml-4 rounded-lg shadow sm:p-8 sticky top-24 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
@@ -106,7 +122,11 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
 
         {/* User Info */}
         <div className="mx-4 mt-4">
-          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600" />Add location </p>
+          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600" 
+          
+          />Add location
+          
+           </p>
           <p className="text-gray-600 flex mt-2 gap-2 dark:text-gray-300"><IconBrandDatabricks className="text-gray-300 dark:text-gray-600" /> Add Profession</p>
         </div>
 
@@ -122,7 +142,9 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
           </p>
           <p className="text-gray-600 flex mt-2 gap-2 justify-between dark:text-gray-300">
             Joined
-            <span className="text-gray-900 dark:text-white text-sm">a minute ago</span>
+            <span className="text-gray-900 dark:text-white text-sm">
+              {formatTimestamp(createdAt)}
+            </span>
           </p>
         </div>
 
@@ -130,16 +152,21 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
         <div className="border-b border-b-gray-600 mt-2"></div>
 
         {/* Social Profiles */}
-        <div className="mt-4 mx-4">
+        
+        <div className="mt-4 mx-4 ">
           <p className="text-gray-600 text-md text-gray-900 dark:text-white font-bold">Social Profile</p>
-          <div className="flex flex-col mt-2 gap-2">
+          
+          <div className=" flex justify-between">
+          <div className="flex flex-col mt-2 gap-2 ">
             {!isinputVisible && !submit && (
               <p >
                 <button className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" onClick={handleiconclick}>
                   <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
+
                 </button>
               </p>
             )}
+            
             {isinputVisible && (
               <form onSubmit={handlesubmit} >
                 <p className='flex '>
@@ -157,17 +184,31 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link }) => {
 
 
 
-            <div>
+            <div className='flex'>
               {submit && (
                 <Link href={submit} target='_blank'>
                   <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" >
                     <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
                   </p>
+
                 </Link>
 
               )}
+               
             </div>
+            
           </div>
+          { !isinputVisible &&(
+            <p className='mt-2'
+            onClick={handleiconclick}
+            >
+            <IconFilePencil/>
+          </p>
+          )
+            
+          }
+          </div>
+         
         </div>
 
 

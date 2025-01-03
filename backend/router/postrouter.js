@@ -60,6 +60,54 @@ router.put('/update/:id', (req, res) => {
         res.status(500).json(err)
     }); 
 })
+router.post('/like/:id', async (req, res) => {
+    try {
+        const post = await Model.findById(req.params.id);
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+
+        post.likes += 1;
+        const updatedPost = await post.save();
+        res.json(updatedPost);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+router.post('/share/:id', async (req, res) => {
+    try {
+        const post = await Model.findById(req.params.id);
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+
+        post.shares += 1;
+        const updatedPost = await post.save();
+        res.json(updatedPost);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+router.post('/comment/:id', async (req, res) => {
+    try {
+        const post = await Model.findById(req.params.id);
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+
+        post.comments += 1;
+        const updatedPost = await post.save();
+        res.json(updatedPost);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+router.get('/comment/:id', async (req, res) => {
+    try {
+        const post = await Model.findById(req.params.id)
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        res.status(200).json(post.comments);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.delete('/delete/:id', (req, res) => {
     Model.findByIdAndDelete(req.params.id)
     .then((result) => {

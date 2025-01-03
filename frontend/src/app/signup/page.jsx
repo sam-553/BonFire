@@ -44,7 +44,7 @@ const Signup = () => {
             axios.post('http://localhost:5000/user/add', values)
                 .then((result) => {
                     toast.success('Account created successfully')
-                    router.push('/login')
+                   router.push("/login")
                 }).catch((err) => {
                     toast.error(err?.response?.data?.message || 'something went wrong')
                     setSubmitting(false)

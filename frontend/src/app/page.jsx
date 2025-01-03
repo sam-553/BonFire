@@ -107,7 +107,7 @@ const Homepage = () => {
         <div className="">
           {
             currentUser !== null &&
-            <Leftsidebar avatar={currentUser?.avatar} fname={currentUser?.fname} link={currentUser?.link} lname={currentUser?.lname}  loadUser={fetchUserData} id={currentUser._id} />
+            <Leftsidebar avatar={currentUser?.avatar} fname={currentUser?.fname} link={currentUser?.link} lname={currentUser?.lname}  createdAt={currentUser?.createdAt}  loadUser={fetchUserData} id={currentUser._id} />
           }
         </div>
 
