@@ -39,7 +39,7 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link, createdAt }) =>
   const [submit, setsubmit] = useState(link)
   const handleiconclick = () => {
     setisinputVisible(true)
-    // axios.get('http://localhost:5000/user/getall')
+    // axios.get('https://localhost:5000/user/getall')
 
   }
 
@@ -76,9 +76,9 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link, createdAt }) =>
     if (minutes > 0) return `${minutes}m ago`;
     return 'Just now';
   };
-  
 
-  
+
+
 
   return (
     <div className="w-full sm:w-[320px] max-w-md p-4 mt-5 ml-4 rounded-lg shadow sm:p-8 sticky top-24 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
@@ -122,11 +122,11 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link, createdAt }) =>
 
         {/* User Info */}
         <div className="mx-4 mt-4">
-          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600" 
-          
+          <p className="text-gray-600 flex gap-2 dark:text-gray-300"><IconMapPin className="text-gray-300 dark:text-gray-600"
+
           />Add location
-          
-           </p>
+
+          </p>
           <p className="text-gray-600 flex mt-2 gap-2 dark:text-gray-300"><IconBrandDatabricks className="text-gray-300 dark:text-gray-600" /> Add Profession</p>
         </div>
 
@@ -152,63 +152,63 @@ const Leftsidebar = ({ avatar, fname, lname, loadUser, id, link, createdAt }) =>
         <div className="border-b border-b-gray-600 mt-2"></div>
 
         {/* Social Profiles */}
-        
+
         <div className="mt-4 mx-4 ">
           <p className="text-gray-600 text-md text-gray-900 dark:text-white font-bold">Social Profile</p>
-          
+
           <div className=" flex justify-between">
-          <div className="flex flex-col mt-2 gap-2 ">
-            {!isinputVisible && !submit && (
-              <p >
-                <button className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" onClick={handleiconclick}>
-                  <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
-
-                </button>
-              </p>
-            )}
-            
-            {isinputVisible && (
-              <form onSubmit={handlesubmit} >
-                <p className='flex '>
-                  <input
-                    type='text'
-                    value={url}
-                    onChange={handleinputchange}
-                    className="text-gray-600 flex gap-2  hover:text-blue-500  dark:text-gray-400 dark:hover:text-blue-400 bg-gray-300 rounded-full px-2 dark:bg-gray-600 "
-                  />
-                  <button type='submit' className='" text-white rounded-full p-1 ml-5  bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out'> save</button>
-                </p>
-
-              </form>
-            )}
-
-
-
-            <div className='flex'>
-              {submit && (
-                <Link href={submit} target='_blank'>
-                  <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" >
+            <div className="flex flex-col mt-2 gap-2 ">
+              {!isinputVisible && !submit && (
+                <p >
+                  <button className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" onClick={handleiconclick}>
                     <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
+
+                  </button>
+                </p>
+              )}
+
+              {isinputVisible && (
+                <form onSubmit={handlesubmit} >
+                  <p className='flex '>
+                    <input
+                      type='text'
+                      value={url}
+                      onChange={handleinputchange}
+                      className="text-gray-600 flex gap-2  hover:text-blue-500  dark:text-gray-400 dark:hover:text-blue-400 bg-gray-300 rounded-full px-2 dark:bg-gray-600 "
+                    />
+                    <button type='submit' className='" text-white rounded-full p-1 ml-5  bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out'> save</button>
                   </p>
 
-                </Link>
-
+                </form>
               )}
-               
+
+
+
+              <div className='flex'>
+                {submit && (
+                  <Link href={submit} target='_blank'>
+                    <p className="text-gray-600 flex gap-2 cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out dark:text-gray-300 dark:hover:text-blue-400" >
+                      <IconBrandInstagram className="text-gray-300 dark:text-gray-600" /> Instagram
+                    </p>
+
+                  </Link>
+
+                )}
+
+              </div>
+
             </div>
-            
+            {!isinputVisible && (
+              <p className='mt-2'
+                onClick={handleiconclick}
+              >
+                <IconFilePencil />
+              </p>
+            )
+
+            }
           </div>
-          { !isinputVisible &&(
-            <p className='mt-2'
-            onClick={handleiconclick}
-            >
-            <IconFilePencil/>
-          </p>
-          )
-            
-          }
-          </div>
-         
+
         </div>
 
 

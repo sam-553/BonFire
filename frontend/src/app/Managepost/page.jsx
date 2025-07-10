@@ -11,7 +11,7 @@ const Feed = ({ selCommunity }) => {
 
   const [commentInput, setCommentInput] = useState('')
   const [commentingPostId, setCommentingPostId] = useState(null)
-  
+
 
   const filterPosts = (e) => {
     const v = e.target.value
@@ -23,33 +23,33 @@ const Feed = ({ selCommunity }) => {
 
   const fetchPost = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/post/getall')
+      const res = await axios.get('https://localhost:5000/post/getall')
       setPostList(res.data)
       setMasterList(res.data)
     } catch (error) {
       toast.error('Failed to fetch posts. Please try again later.')
     }
   }
-    const deletePost = async (id) => {
-          if (!confirm('Are you sure you want to delete this post?')) return;
-          try {
-            const res = await axios.delete(`http://localhost:5000/post/delete/${id}`)
-            if (res.status === 200) {
-              fetchPost()
-              toast.success('Post deleted successfully');
-            } else {
-              toast.error('Failed to delete post');
-            }
-          } catch (error) {
-            toast.error('An error occurred while deleting the post.');
-          }
-        }
-  
-  
+  const deletePost = async (id) => {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+    try {
+      const res = await axios.delete(`https://localhost:5000/post/delete/${id}`)
+      if (res.status === 200) {
+        fetchPost()
+        toast.success('Post deleted successfully');
+      } else {
+        toast.error('Failed to delete post');
+      }
+    } catch (error) {
+      toast.error('An error occurred while deleting the post.');
+    }
+  }
+
+
 
   const handleLike = async (postId) => {
     try {
-      const res = await axios.post(`http://localhost:5000/post/like/${postId}`)
+      const res = await axios.post(`https://localhost:5000/post/like/${postId}`)
       if (res.status === 200) {
         setPostList(prevPosts =>
           prevPosts.map(post =>
@@ -75,7 +75,7 @@ const Feed = ({ selCommunity }) => {
           url: `${window.location.origin}/post/${postId}`,
         })
 
-        const res = await axios.post(`http://localhost:5000/post/share/${postId}`)
+        const res = await axios.post(`https://localhost:5000/post/share/${postId}`)
         setPostList(prevPosts =>
           prevPosts.map(post =>
             post._id === postId ? { ...post, shares: res.data.shares } : post
@@ -110,7 +110,7 @@ const Feed = ({ selCommunity }) => {
     if (!commentInput.trim()) return
 
     try {
-      const res = await axios.post(`http://localhost:5000/post/comment/${postId}`)
+      const res = await axios.post(`https://localhost:5000/post/comment/${postId}`)
 
       if (res.status === 200) {
         setPostList(prevPosts =>
@@ -126,7 +126,7 @@ const Feed = ({ selCommunity }) => {
       toast.error('Failed to add comment.')
     }
   }
-  
+
 
   useEffect(() => {
     if (selCommunity) {
@@ -135,7 +135,7 @@ const Feed = ({ selCommunity }) => {
       )
     }
   }, [selCommunity])
-  
+
 
   return (
     < >
@@ -177,7 +177,7 @@ const Feed = ({ selCommunity }) => {
               </div>
               <span
                 className="text-2xl text-black dark:text-white cursor-pointer hover:text-red-500"
-                onClick={() =>deletePost(post._id)}
+                onClick={() => deletePost(post._id)}
               >
                 <IconBackspace />
               </span>
@@ -238,9 +238,9 @@ const Feed = ({ selCommunity }) => {
 
               {/* Display Comments */}
 
-             
 
-              
+
+
 
 
 

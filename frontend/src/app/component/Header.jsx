@@ -1,76 +1,63 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {  IconCampfireFilled, IconSun, IconMoon } from '@tabler/icons-react';
+import { IconCampfireFilled, IconSun, IconMoon } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 
 const Header = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
 
-  // Check the saved mode preference from localStorage (if any)
   useEffect(() => {
     const savedMode = localStorage.getItem('darkMode') === 'true';
     setDarkMode(savedMode);
-    if (savedMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    document.body.classList.toggle('dark', savedMode);
   }, []);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => {
       const newMode = !prevMode;
       localStorage.setItem('darkMode', newMode);
-      if (newMode) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
+      document.body.classList.toggle('dark', newMode);
       return newMode;
     });
   };
-  const removeToken=()=>{
+
+  const removeToken = () => {
     localStorage.removeItem('token');
-    router.push('/login')
-  }
+    router.push('/login');
+  };
 
   return (
-    <header className="h-16 shadow-xl sticky top-0 z-10  transition-all duration-300 ease-in-out  ">
-      <div className={`h-full container  flex flex-col sm:flex-row items-center px-4 sm:px-12 justify-between bg-white dark:bg-gray-900`}>
+    <header className="sticky top-0 z-20 shadow-md bg-white dark:bg-gray-900 transition duration-300">
+      <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between px-4 py-3 gap-4">
 
         {/* Logo Section */}
-        <div className="flex items-center justify-between w-full sm:w-auto mb-4 sm:mb-0">
-          <Link href="./">
-            <h2 className="text-4xl font-bold flex items-center space-x-2 text-blue-600 dark:text-orange-500">
-              <IconCampfireFilled stroke={2} className="h-14 w-14 text-orange-500 dark:text-orange-300" />
-              <span className="ml-2 hidden sm:block">BonFire</span>
-            </h2>
+        <Link href="./" className="flex items-center space-x-2 text-blue-600 dark:text-orange-500 hover:opacity-90 transition">
+          <IconCampfireFilled stroke={2} className="h-12 w-12 sm:h-14 sm:w-14 text-orange-500 dark:text-orange-300" />
+          <span className="text-3xl sm:text-4xl font-extrabold hidden sm:inline">BonFire</span>
+        </Link>
+
+        {/* Navigation Links */}
+        <div className="flex flex-wrap justify-center gap-3 text-base font-semibold">
+          <Link href="./" className="px-3 py-2 rounded-md hover:bg-blue-100 dark:hover:bg-gray-800 text-black dark:text-white transition">
+            Home
+          </Link>
+          <Link href="/Createpost" className="px-3 py-2 rounded-md hover:bg-blue-100 dark:hover:bg-gray-800 text-black dark:text-white transition">
+            Add Post
+          </Link>
+          <Link href="/manage-community" className="px-3 py-2 rounded-md hover:bg-blue-100 dark:hover:bg-gray-800 text-black dark:text-white transition">
+            Create Community
           </Link>
         </div>
 
-        {/* Search Bar (Optional, could be added later) */}
-       
-
-        {/* Right Side - Icons and Logout */}
-        <div className="flex items-center gap-4 mt-4 sm:mt-0">
-        <div className="flex justify-between w-[400px]">
-        <Link href="./" className="px-4 py-2 font-semibold text-black dark:text-white ">
-             Home
-            </Link>
-        <Link href="/Createpost" className="px-4 py-2 font-semibold text-black dark:text-white ">
-              Add Post
-            </Link>
-        <Link href="/manage-community" className="px-4 py-2 font-semibold text-black dark:text-white ">
-             Create community
-            </Link>
-        </div>
-          {/* Sun/Moon Icon for theme toggle */}
+        {/* Right Actions */}
+        <div className="flex items-center flex-wrap justify-center gap-3">
+          {/* Theme Toggle */}
           <div
-            className="text-3xl cursor-pointer transition-all duration-300 ease-in-out"
+            className="text-2xl cursor-pointer hover:scale-110 transition"
             onClick={toggleDarkMode}
+            title="Toggle Dark Mode"
           >
             {darkMode ? (
               <IconMoon className="text-yellow-400 hover:text-yellow-500" />
@@ -79,19 +66,21 @@ const Header = () => {
             )}
           </div>
 
-          
-          {/* Log out button */}
-          <div>
-            <button className="px-4 py-2 text-white rounded-full bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out" onClick={removeToken}>
-              Log out
-              
-            </button>
-          </div>
-          <div>
-            <Link href="/signup" className="px-4 py-2 text-white rounded-full bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out">
-             Sign up
-            </Link>
-          </div>
+          {/* Logout Button */}
+          <button
+            onClick={removeToken}
+            className="px-4 py-2 rounded-full font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition"
+          >
+            Log out
+          </button>
+
+          {/* Sign up Button */}
+          <Link
+            href="/signup"
+            className="px-4 py-2 rounded-full font-medium text-white bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 transition"
+          >
+            Sign up
+          </Link>
         </div>
       </div>
     </header>

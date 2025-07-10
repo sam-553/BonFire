@@ -11,7 +11,7 @@ import axios from 'axios';
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Email is required').required('please enter email'),
   password: Yup.string().required('Password is required'),
- 
+
 });
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
           toast.success('login successfully')
           resetForm()
           localStorage.setItem('token', result.data.token);
-          
+
           router.push("/")
         }).catch((err) => {
           toast.error('invalid email or password')
@@ -104,7 +104,7 @@ const Login = () => {
 
           {/* Create Account Link */}
           <div className="mt-4 flex justify-center">
-            <p className="text-gray-600 dark:text-gray-300">Don't have an account?</p>
+            <p className="text-gray-600 dark:text-gray-300">Don&apos;t have an account?</p>
             <Link
               className="text-blue-600 dark:text-blue-400 decoration-2 hover:underline focus:outline-none focus:underline font-medium ml-2"
               href="/signup"

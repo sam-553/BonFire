@@ -179,7 +179,7 @@ const Feed = ({ selCommunity }) => {
 
                 <a
                   className="flex items-center gap-2 cursor-pointer hover:text-blue-500"
-                  onClick={() => setCommentingPostId(post._id)} on click
+                  onClick={() => setCommentingPostId(post._id)} 
                 >
                   <IconMessage />
                   <span>{post.comments?.length || 0} comments</span>

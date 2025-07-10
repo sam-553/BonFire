@@ -11,7 +11,7 @@
 //   const [communityList, setCommunityList] = useState([]);
 
 //   const fetchCommunity = async () => {
-//     const res = await axios.get('http://localhost:5000/community/getall');
+//     const res = await axios.get('https://localhost:5000/community/getall');
 //     setCommunityList(res.data);
 //   };
 
