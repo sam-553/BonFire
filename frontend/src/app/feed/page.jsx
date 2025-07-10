@@ -124,11 +124,11 @@ const Feed = ({ selCommunity }) => {
   return (
     <>
 
-      <div className="lg:w-[500px] md:w-[300px] mx-2 bg-white dark:bg-gray-800 border mt-8 rounded-lg shadow dark:border-gray-700 border-gray-100 sticky top-24 z-10">
-        <div className="flex-1 min-w-0">
-          <form className="flex flex-col sm:flex-row items-center gap-4 p-4">
+      <div className="lg:w-[500px] md:w-[300px] mx-2 bg-white dark:bg-gray-800 border mt-8 rounded-lg shadow dark:border-gray-700 border-gray-100 sticky top-24 z-10 ml-8">
+        <div className="flex-1 min-w-0 ">
+          <form className="flex flex-col sm:flex-row items-center gap-4 p-4 ">
             <div className="hidden sm:block flex-1 max-w-100% bg-gray-200 dark:bg-gray-700 rounded-full p-2 transition-all duration-300 ease-in-out focus-within:ring-2 focus-within:ring-blue-500 dark:focus-within:ring-blue-500">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 ">
                 <IconSearch className="text-gray-400 dark:text-gray-200" />
                 <input
                   type="text"
@@ -143,7 +143,7 @@ const Feed = ({ selCommunity }) => {
       </div>
 
 
-      <div className="max-w-3xl px-4 pt-6 lg:pt-5 pb-12 sm:px-6 lg:px-8">
+      <div className="max-w-3xl px-4 pt-6 lg:pt-5 pb-12 sm:px-6 lg:px-8 ">
         {postList.map((post) => (
           <div
             key={post._id}
