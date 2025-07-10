@@ -1,13 +1,23 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const url="mongodb+srv://samdb:sam553@cluster0.hfmcl.mongodb.net/Webapp?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(url)
-.then((result) => {
-    console.log('db connected');
+const url = process.env.MONGO_URL;
+
+if (!url) {
+    console.error('❌ MONGO_URL not defined in environment variables.');
+    process.exit(1);
+}
+
+mongoose.connect(url, {
     
-}).catch((err) => {
-    console.log(err);
-    
+})
+.then(() => {
+    console.log('✅ MongoDB connected successfully');
+})
+.catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+    process.exit(1);
 });
-module.exports=mongoose
+
+module.exports = mongoose;
